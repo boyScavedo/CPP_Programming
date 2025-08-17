@@ -54,20 +54,20 @@ void input(int& a, int& b);
 /**
  * @brief Entry point of the CLI-Based Menu-Driven Calculator.
  *
+ * @details
  * Displays a menu driven calculator interface and performs basic arithmatic operations(+, -, *, /)
  *
- *@details
- *This function demonstrates:
+ * This function demonstrates:
  * - Menu-driven structure
  * - Function calls for arithematic operations
  *
+ * Variables:
+ *  - a:  First operand entered by the user
+ *  - b:  Second operand entered by the user
+ *  - choice: Stores the user's menu selection
+ *
  * @note The program runs indefinitely until the user selects the "Exit" option.
- *
  * @return int Returns 0 on successful execution.
- *
- * @var a First operand entered by the user
- * @var b Second operand entered by the user
- * @var choice Stores the user's menu selection
  */
 int main() {
   
