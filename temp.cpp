@@ -4,46 +4,26 @@
 using namespace std;
 
 class Cricket {
-    string name;
+public:
+    string playerName;
     int age;
     int score;
-
-public:
-    void input() {
+    
+    void readData() {
         cout << "Enter player name: ";
         cin.ignore();
-        getline(cin, name);
+        getline(cin, playerName);
         cout << "Enter age: ";
         cin >> age;
         cout << "Enter score: ";
         cin >> score;
     }
 
-    void writeToFile(ofstream &out) {
-        out << name << " " << age << " " << score << "\n";
-    }
-
-    void displayHighestScorePlayers(const string &filename) {
-        ifstream in(filename);
-        string pname;
-        int page, pscore;
-
-        int highest = 0;
-
-        while (in >> pname >> page >> pscore) {
-            if (pscore > highest) {
-                highest = pscore;
-            }
-        }
-        in.close();
-
-        in.open(filename);
-        cout << "\nPlayers with highest score (" << highest << "):\n";
-        while (in >> pname >> page >> pscore) {
-            if (pscore == highest)
-                cout << pname << " " << page << " " << pscore << "\n";
-        }
-        in.close();
+    void displayData() {
+        cout << "Name: " << playerName << endl;
+        cout << "Age: " << age << endl;
+        cout << "Score: " << score << endl;
+        cout << "---------------------" << endl;
     }
 };
 
@@ -52,17 +32,56 @@ int main() {
     cout << "Enter number of players: ";
     cin >> n;
 
-    ofstream out("cricket.txt", ios::app);
-    Cricket c;
+    Cricket* players = new Cricket[n];
 
+    // Read data
     for (int i = 0; i < n; i++) {
-        cout << "\nPlayer " << i + 1 << ":\n";
-        c.input();
-        c.writeToFile(out);
+        cout << "\nEnter details for player " << i + 1 << ":" << endl;
+        players[i].readData();
     }
-    out.close();
 
-    c.displayHighestScorePlayers("cricket.txt");
+    // Write to text file (SIMPLE WAY)
+    ofstream outFile("cricket.txt");
+    outFile << n << endl; // Store count first
+    
+    for (int i = 0; i < n; i++) {
+        outFile << players[i].playerName << endl;
+        outFile << players[i].age << endl;
+        outFile << players[i].score << endl;
+    }
+    outFile.close();
 
+    // Read from text file (SIMPLE WAY)
+    ifstream inFile("cricket.txt");
+    int count;
+    inFile >> count;
+    inFile.ignore(); // Clear newline
+    
+    Cricket* filePlayers = new Cricket[count];
+    for (int i = 0; i < count; i++) {
+        getline(inFile, filePlayers[i].playerName);
+        inFile >> filePlayers[i].age;
+        inFile >> filePlayers[i].score;
+        inFile.ignore(); // Clear newline after numbers
+    }
+    inFile.close();
+
+    // Find and display highest scorers
+    int highest = 0;
+    for (int i = 0; i < count; i++) {
+        if (filePlayers[i].score > highest) {
+            highest = filePlayers[i].score;
+        }
+    }
+
+    cout << "\nHighest Scorers (" << highest << "):" << endl;
+    for (int i = 0; i < count; i++) {
+        if (filePlayers[i].score == highest) {
+            filePlayers[i].displayData();
+        }
+    }
+
+    delete[] players;
+    delete[] filePlayers;
     return 0;
 }
