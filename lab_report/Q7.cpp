@@ -1,4 +1,4 @@
-//Write a CPP program to define a class Rectangle with a parameterized constructore that takes length and breadth as arguments. Add a member function to compute area and display it
+// Create a class Student with members name and marks, display the use of default arguments with name as "Unknown" and marks as 0
 
 #include <iostream>
 using namespace std;
